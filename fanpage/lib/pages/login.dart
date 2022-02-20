@@ -35,19 +35,20 @@ class LoginPage extends StatelessWidget {
                         controller: _email,
                         validator: (String? value) {}),
                     TextFormField(
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Password",
-                          hintStyle:
-                              TextStyle(fontSize: 20, color: Colors.black)),
-                      controller: _password,
-                      obscureText: true,
-                    ),
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Password",
+                            hintStyle:
+                                TextStyle(fontSize: 20, color: Colors.black)),
+                        controller: _password,
+                        obscureText: true,
+                        validator: (String? value) {
+                          if (value == null) {
+                            return "Passwords cannot be empty";
+                          }
+                        }),
                     ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _login(context);
-                          }
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -66,10 +67,10 @@ class LoginPage extends StatelessWidget {
       await _auth.signInWithEmailAndPassword(
           email: _email.text, password: _password.text);
     } on FirebaseException catch (e) {
-      if (e.code == 'user-not-found') {
+      if (e.code == 'email-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content:
-                Text("User was not found, please enter a valid username")));
+                Text("Email was not found, please enter a valid username")));
       } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Password was incorrect, try again.")));
