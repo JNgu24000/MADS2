@@ -52,6 +52,7 @@ class DatabaseService {
 }
 
 class Post {
-  Post();
-  Post.fromJson(Map<String, dynamic> json) : this();
+  final String message;
+  Post({required this.message});
+  Post.fromJson(Map<String, dynamic> json) : this(message: json["message"]);
 }

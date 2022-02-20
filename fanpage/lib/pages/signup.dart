@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,7 +18,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Registration/Login Page"),
+          title: const Text("Registration Page"),
           backgroundColor: Colors.blue,
         ),
         backgroundColor: Colors.white,
@@ -54,7 +53,7 @@ class SignUpPage extends StatelessWidget {
                         validator: (String? value) {
                           if (value == null) {
                             return "Passwords cannot be empty";
-                          } else if (value.length > 7) {
+                          } else if (value.length < 7) {
                             return "Password must be minimum length of eight characters.";
                           }
                         }),
@@ -62,9 +61,16 @@ class SignUpPage extends StatelessWidget {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _register(context);
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
                           }
                         },
                         child: const Text("Register")),
+                    const SizedBox(height: 10),
+                    const Text("Already a user? Login here"),
                     ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -73,9 +79,6 @@ class SignUpPage extends StatelessWidget {
                                   builder: (context) => LoginPage()));
                         },
                         child: const Text("Login")),
-                    TextButton(
-                        onPressed: () {},
-                        child: const Text("Forgot password?")),
                   ],
                 ))));
   }
@@ -103,32 +106,6 @@ class SignUpPage extends StatelessWidget {
         "email": _email.text,
         "role": "USER"
       });
-    } on FirebaseException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message ?? "Unknown error")));
-    }
-  }
-
-  void _login(BuildContext context) async {
-    try {
-      await _auth.signInWithEmailAndPassword(
-          email: _email.text, password: _password.text);
-    } on FirebaseException catch (e) {
-      if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content:
-                Text("User was not found, please enter a valid username")));
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Password was incorrect, try again.")));
-      }
-      return;
-    }
-    try {
-      await _db
-          .collection("users")
-          .doc(_auth.currentUser!.uid)
-          .set({"display_name": _display.text, "email": _email.text});
     } on FirebaseException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message ?? "Unknown error")));
