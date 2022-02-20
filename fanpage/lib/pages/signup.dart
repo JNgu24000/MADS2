@@ -18,15 +18,37 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text("Registration/Login Page"),
+          backgroundColor: Colors.blue,
+        ),
+        backgroundColor: Colors.white,
         body: Center(
             child: Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
-                        controller: _display, validator: (String? value) {}),
-                    TextFormField(controller: _email),
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Username",
+                            hintStyle:
+                                TextStyle(fontSize: 20, color: Colors.black)),
+                        controller: _display,
+                        validator: (String? value) {}),
                     TextFormField(
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Email",
+                            hintStyle:
+                                TextStyle(fontSize: 20, color: Colors.black)),
+                        controller: _email),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Password",
+                            hintStyle:
+                                TextStyle(fontSize: 20, color: Colors.black)),
                         controller: _password,
                         obscureText: true,
                         validator: (String? value) {
