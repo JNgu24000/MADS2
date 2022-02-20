@@ -45,9 +45,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDGiJQsy-mKylXo343rUgsVZP9CepCAFOI',
-    appId: '1:830663923404:android:ed6a2e22fe3f88ede15469',
+    appId: '1:830663923404:android:e0bd2eaaba3240c7e15469',
     messagingSenderId: '830663923404',
     projectId: 'jn-fanpage',
+    databaseURL: 'https://jn-fanpage-default-rtdb.firebaseio.com',
     storageBucket: 'jn-fanpage.appspot.com',
   );
 }
