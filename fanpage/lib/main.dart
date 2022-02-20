@@ -1,42 +1,31 @@
+import 'package:fanpage/pages/signup.dart';
+import 'package:fanpage/pages/login.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  _AppState createState() => _AppState();
-}
 
-class _AppState extends State<MyApp> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
-          body: FutureBuilder(
-            future: _initialization,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Container(color: Colors.red);
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                return Container(
-                  color: Colors.blue,
-                );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
-        ));
+      title: 'Fanpage App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: SignUpPage(),
+    );
   }
 }
