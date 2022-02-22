@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'package:flutter_application_1/user.dart';
+
+User? myself;
 
 class HomePage extends StatelessWidget {
   @override
@@ -9,6 +12,9 @@ class HomePage extends StatelessWidget {
           title: const Text("Welcome!"),
           backgroundColor: Colors.blue,
         ),
+        floatingActionButton: myself != null && myself!.role == "ADMIN"
+            ? FloatingActionButton(onPressed: () {})
+            : null,
         body: Center(
             child: Form(
                 child: Column(

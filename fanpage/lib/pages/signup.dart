@@ -53,19 +53,16 @@ class SignUpPage extends StatelessWidget {
                         validator: (String? value) {
                           if (value == null) {
                             return "Passwords cannot be empty";
-                          } else if (value.length < 7) {
-                            return "Password must be minimum length of eight characters.";
                           }
                         }),
                     ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _register(context);
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Account Registered')),
+                            );
                           }
                         },
                         child: const Text("Register")),

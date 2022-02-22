@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/pages/signup.dart';
 import 'homepage.dart';
 
 class LoginPage extends StatelessWidget {
@@ -33,7 +34,11 @@ class LoginPage extends StatelessWidget {
                             hintStyle:
                                 TextStyle(fontSize: 20, color: Colors.black)),
                         controller: _email,
-                        validator: (String? value) {}),
+                        validator: (String? value) {
+                          if (value == null) {
+                            return "Please enter an email";
+                          }
+                        }),
                     TextFormField(
                         decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -49,15 +54,22 @@ class LoginPage extends StatelessWidget {
                         }),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                          if (_formKey.currentState!.validate()) {
+                            _login(context);
+                          }
                         },
                         child: const Text("Login")),
                     TextButton(
                         onPressed: () {},
                         child: const Text("Forgot password?")),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()));
+                        },
+                        child: const Text("Back to Registration")),
                   ],
                 ))));
   }
@@ -67,13 +79,16 @@ class LoginPage extends StatelessWidget {
       await _auth.signInWithEmailAndPassword(
           email: _email.text, password: _password.text);
     } on FirebaseException catch (e) {
-      if (e.code == 'email-not-found') {
+      if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content:
-                Text("Email was not found, please enter a valid username")));
+            content: Text(
+                "No username associated with email entered, please register.")));
       } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Password was incorrect, try again.")));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
       }
       return;
     }
