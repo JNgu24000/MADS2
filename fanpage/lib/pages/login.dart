@@ -86,9 +86,6 @@ class LoginPage extends StatelessWidget {
       } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Password was incorrect, try again.")));
-      } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
       }
       return;
     }
