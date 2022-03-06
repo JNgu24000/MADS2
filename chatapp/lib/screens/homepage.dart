@@ -1,36 +1,41 @@
+import 'package:chatapp/screens/profile.dart';
+import 'package:chatapp/screens/register.dart';
 import 'package:chatapp/widgets/conversationList.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+  var user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("ChatApp"),
-        backgroundColor: Colors.blue,
-      ),
-      body: conversationList(),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey.shade600,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: "Chats",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_work),
-            label: "Channels",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            label: "Profiles",
-          ),
-        ],
-      ),
-    );
+        appBar: AppBar(
+            backgroundColor: Colors.blue,
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const Text("ChatApp"),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profile()));
+                    },
+                    child: const Text("Edit Profile")),
+                ElevatedButton(
+                    onPressed: () async {
+                      _signOut(context);
+                    },
+                    child: const Text("Logout"))
+              ],
+            )),
+        body: conversationList());
+  }
+
+  void _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("Signed Out.")));
+    Navigator.of(context).pushNamed('/register');
   }
 }

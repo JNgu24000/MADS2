@@ -10,9 +10,9 @@ class RegisterPage extends StatelessWidget {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   final _formKey = GlobalKey<FormState>();
-  var _email = TextEditingController();
-  var _password = TextEditingController();
-  var _display = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _display = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +27,6 @@ class RegisterPage extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                        decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Username",
-                            hintStyle:
-                                TextStyle(fontSize: 20, color: Colors.black)),
-                        controller: _display,
-                        validator: (String? value) {}),
                     TextFormField(
                         decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -65,13 +57,9 @@ class RegisterPage extends StatelessWidget {
                           return null;
                         }),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _register(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Account Registered')),
-                            );
                           }
                         },
                         child: const Text("Register")),
@@ -93,6 +81,8 @@ class RegisterPage extends StatelessWidget {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: _email.text, password: _password.text);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Account Registered')));
     } on FirebaseException catch (e) {
       if (e.code == 'email-already-in-use') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -103,17 +93,6 @@ class RegisterPage extends StatelessWidget {
             const SnackBar(content: Text("Please enter a stronger password.")));
       }
       return;
-    }
-
-    try {
-      await _db.collection("users").doc(_auth.currentUser!.uid).set({
-        "display_name": _display.text,
-        "email": _email.text,
-        "role": "USER"
-      });
-    } on FirebaseException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message ?? "Unknown error")));
     }
   }
 }
