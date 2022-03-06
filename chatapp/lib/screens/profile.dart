@@ -55,6 +55,8 @@ class Profile extends StatelessWidget {
       await _db.collection("users").doc(_auth.currentUser!.uid).set(
           {"displayName": _displayName.text, "profilePic": _profilePic.text},
           SetOptions(merge: true));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Profile updated.")));
     } on FirebaseException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message ?? "Unknown error")));

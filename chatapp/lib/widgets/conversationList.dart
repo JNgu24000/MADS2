@@ -39,12 +39,12 @@ class _conversationList extends State<conversationList> {
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const <Widget>[
-                    Text(
-                      "Messages",
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                    ),
+                  children: <Widget>[
+                    const Text("Messages",
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.bold)),
+                    ElevatedButton(
+                        onPressed: () {}, child: const Text("New Message+")),
                   ],
                 ),
               ),

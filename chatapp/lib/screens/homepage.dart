@@ -1,5 +1,4 @@
 import 'package:chatapp/screens/profile.dart';
-import 'package:chatapp/screens/register.dart';
 import 'package:chatapp/widgets/conversationList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
