@@ -18,7 +18,7 @@ class User {
   User.fromJson(String id, Map<String, dynamic> json)
       : this(
             id: id,
-            displayName: json["display_name"],
+            displayName: json["displayName"],
             name: json["name"],
             email: json["email"],
             profilePic: json["profilePic"],

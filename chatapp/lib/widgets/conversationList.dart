@@ -1,11 +1,12 @@
+import 'package:chatapp/models/user.dart';
 import 'package:flutter/material.dart';
 
-class ChatPage extends StatefulWidget {
+class conversationList extends StatefulWidget {
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _conversationList createState() => _conversationList();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _conversationList extends State<conversationList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +16,7 @@ class _ChatPageState extends State<ChatPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search...",

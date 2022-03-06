@@ -1,22 +1,24 @@
-import 'package:chatapp/screens/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+import 'login.dart';
+
+class RegisterPage extends StatelessWidget {
+  RegisterPage({Key? key}) : super(key: key);
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   final _formKey = GlobalKey<FormState>();
-  final _password = TextEditingController();
-  final _email = TextEditingController();
+  var _email = TextEditingController();
+  var _password = TextEditingController();
+  var _display = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Login Page"),
+          title: const Text("Registration Page"),
           backgroundColor: Colors.blue,
         ),
         backgroundColor: Colors.white,
@@ -26,15 +28,23 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
-                        controller: _email,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Username",
+                            hintStyle:
+                                TextStyle(fontSize: 20, color: Colors.black)),
+                        controller: _display,
+                        validator: (String? value) {}),
+                    TextFormField(
                         decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Email",
                             hintStyle:
                                 TextStyle(fontSize: 20, color: Colors.black)),
+                        controller: _email,
                         validator: (String? value) {
                           if (value!.isEmpty) {
-                            return "Enter your email.";
+                            return "Email cannot be empty";
                           }
                           return null;
                         }),
@@ -49,40 +59,58 @@ class LoginPage extends StatelessWidget {
                         validator: (String? value) {
                           if (value!.isEmpty) {
                             return "Passwords cannot be empty";
+                          } else if (value.length < 6) {
+                            return "Password must be at least six characters";
                           }
+                          return null;
                         }),
                     ElevatedButton(
-                        onPressed: () async {
+                        onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            _login(context);
+                            _register(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Account Registered')),
+                            );
                           }
+                        },
+                        child: const Text("Register")),
+                    const SizedBox(height: 10),
+                    const Text("Already a user? Login here"),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
                         },
                         child: const Text("Login")),
                   ],
                 ))));
   }
 
-  void _login(BuildContext context) async {
+  void _register(BuildContext context) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: _email.text, password: _password.text);
-      Navigator.of(context).pushNamed('/home');
     } on FirebaseException catch (e) {
-      if (e.code == 'user-not-found') {
+      if (e.code == 'email-already-in-use') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
-                "No username associated with email entered, please register.")));
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Password was incorrect, try again.")));
+                "Email already registered, please choose another or login.")));
+      } else if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Please enter a stronger password.")));
       }
       return;
     }
+
     try {
-      await _db
-          .collection("users")
-          .doc(_auth.currentUser!.uid)
-          .set({"email": _email.text});
+      await _db.collection("users").doc(_auth.currentUser!.uid).set({
+        "display_name": _display.text,
+        "email": _email.text,
+        "role": "USER"
+      });
     } on FirebaseException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message ?? "Unknown error")));

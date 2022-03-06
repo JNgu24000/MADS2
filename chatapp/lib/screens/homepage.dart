@@ -1,4 +1,4 @@
-import 'package:chatapp/screens/chatpage.dart';
+import 'package:chatapp/widgets/conversationList.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
         title: const Text("ChatApp"),
         backgroundColor: Colors.blue,
       ),
-      body: ChatPage(),
+      body: conversationList(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey.shade600,
