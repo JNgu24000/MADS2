@@ -1,5 +1,5 @@
 import 'package:chatapp/screens/profile.dart';
-import 'package:chatapp/widgets/conversationList.dart';
+import 'package:chatapp/widgets/conversationDisplay.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
                     child: const Text("Logout"))
               ],
             )),
-        body: conversationList());
+        body: conversationDisplay());
   }
 
   void _signOut(BuildContext context) async {

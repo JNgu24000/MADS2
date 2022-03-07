@@ -32,7 +32,7 @@ class _UserListState extends State<UserList> {
                 User.fromJson(doc.id, doc.data() as Map<String, dynamic>);
             return ListTile(
               title: Text(user.displayName),
-              subtitle: Text(user.email),
+              subtitle: Text(user.message),
             );
           }).toList());
         },

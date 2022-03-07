@@ -23,7 +23,9 @@ class Profile extends StatelessWidget {
             child: Form(
                 key: _formKey,
                 child: Column(children: [
-                  const Text("Profile Customization"),
+                  const Text("Profile Customization",
+                      style:
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
                   TextFormField(
                     controller: _displayName,
                     decoration: const InputDecoration(

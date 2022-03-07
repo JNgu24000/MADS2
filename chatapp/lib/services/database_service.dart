@@ -35,7 +35,7 @@ class DatabaseService {
       QuerySnapshot<Map<String, dynamic>> snapshot) {
     for (var element in snapshot.docs) {
       User user = User.fromJson(element.id, element.data());
-      userMap[user.id] = user;
+      userMap[user.displayName] = user;
     }
 
     return userMap;
@@ -45,7 +45,7 @@ class DatabaseService {
       QuerySnapshot<Map<String, dynamic>> snapshot) {
     for (var element in snapshot.docs) {
       User message = User.fromJson(element.id, element.data());
-      userMap[message.id] = message;
+      userMap[message.message] = message;
     }
 
     return userMap;
