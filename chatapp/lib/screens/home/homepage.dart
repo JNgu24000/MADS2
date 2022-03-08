@@ -1,16 +1,16 @@
 import 'package:chatapp/screens/profile.dart';
-import 'package:chatapp/widgets/conversationDisplay.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:chatapp/providers/conversationProvider.dart';
 
-class HomePage extends StatelessWidget {
-  var user = FirebaseAuth.instance.currentUser;
+class HomePage extends StatefulWidget {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  var result = await _db.collection("users").doc(user!.uid).get().then((value){
+  HomeState createState() => HomeState();
+}
 
-  })
-
+class HomeState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +19,6 @@ class HomePage extends StatelessWidget {
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: NetworkImage(),
-                  maxRadius: 30,
-                ),
                 const Text("ChatApp"),
                 ElevatedButton(
                     onPressed: () {
@@ -38,7 +33,7 @@ class HomePage extends StatelessWidget {
                     child: const Text("Logout"))
               ],
             )),
-        body: conversationDisplay());
+        body: ConversationProvider(user: _auth));
   }
 
   void _signOut(BuildContext context) async {
