@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
       await _db
           .collection("users")
           .doc(_auth.currentUser!.uid)
-          .set({"email": _email.text});
+          .set({"email": _email.text}, SetOptions(merge: true));
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Account Logged In')));
     } on FirebaseException catch (e) {

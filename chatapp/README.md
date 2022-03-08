@@ -1,16 +1,11 @@
 # chatapp
 
-A new Flutter project.
+A flutter project aimed to creating a chat-based app using Firebase functionalities and Flutter widgets.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Orgaization
+The app is organized into the following pages:
+* Registration: the first page loaded up for the app to enable the user to create an account with a username and password and register it to the Firebase database. A separate button links to the login page which is available to them as well as returning users.
+* Login: the main page for logging into the app with a registered account.
+* Homepage: the main landing page of the app that displays the list of conversations the user has had between different users.
+* Profile: optional page where the user can change their display name and profile picture.
+* Messaging: the main focus of the app that allows a user to engage in messages between other users.

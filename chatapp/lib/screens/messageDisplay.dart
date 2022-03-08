@@ -45,8 +45,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   width: 2,
                 ),
                 const CircleAvatar(
+                  backgroundColor: Colors.transparent,
                   backgroundImage: NetworkImage(
-                      "https://ssb.wiki.gallery/images/thumb/6/6e/Sora-Alt_1_SSBU.png/500px-Sora-Alt_1_SSBU.png"),
+                      "https://ssb.wiki.gallery/images/1/1d/SoraVictoryPose3SSBU.gif"),
                   maxRadius: 20,
                 ),
                 const SizedBox(
@@ -92,8 +93,25 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             itemBuilder: (context, index) {
               return Container(
                 padding:
-                    EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-                child: Text(messages[index].messageContent),
+                    EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+                child: Align(
+                  alignment: (messages[index].messageType == "receiver"
+                      ? Alignment.topLeft
+                      : Alignment.topRight),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: (messages[index].messageType == "receiver"
+                          ? Colors.grey.shade200
+                          : Colors.blue[200]),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      messages[index].messageContent,
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ),
               );
             },
           ),

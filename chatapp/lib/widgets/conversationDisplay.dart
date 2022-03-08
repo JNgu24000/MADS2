@@ -1,6 +1,6 @@
 import 'package:chatapp/models/user.dart';
 import 'package:chatapp/screens/messageDisplay.dart';
-import 'package:chatapp/widgets/convoListView.dart';
+import 'package:chatapp/screens/convoListView.dart';
 import 'package:flutter/material.dart';
 
 class conversationDisplay extends StatefulWidget {
@@ -93,8 +93,8 @@ class _conversationList extends State<conversationDisplay> {
             ListView.builder(
               itemCount: chatUsers.length,
               shrinkWrap: true,
-              padding: EdgeInsets.only(top: 16),
-              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(top: 16),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ConversationView(
                   displayName: chatUsers[index].displayName,

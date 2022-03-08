@@ -1,10 +1,15 @@
 import 'package:chatapp/screens/profile.dart';
 import 'package:chatapp/widgets/conversationDisplay.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   var user = FirebaseAuth.instance.currentUser;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  var result = await _db.collection("users").doc(user!.uid).get().then((value){
+
+  })
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +19,11 @@ class HomePage extends StatelessWidget {
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: NetworkImage(),
+                  maxRadius: 30,
+                ),
                 const Text("ChatApp"),
                 ElevatedButton(
                     onPressed: () {
