@@ -7,7 +7,7 @@ import 'package:chatapp/widgets/userRow.dart';
 class NewMessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth user = Provider.of<FirebaseAuth>(context);
+    final FirebaseAuth user = FirebaseAuth.instance;
     final List<Chatter> userDirectory = Provider.of<List<Chatter>>(context);
     return Scaffold(
       appBar: AppBar(title: Text('Select Contact')),

@@ -5,7 +5,7 @@ class Chatter {
     required this.profilePic,
   });
 
-  factory Chatter.fromMap(Map<String, dynamic> data) {
+  factory Chatter.fromMap(Map<dynamic, dynamic> data) {
     return Chatter(
         id: data['id'],
         displayName: data['name'],

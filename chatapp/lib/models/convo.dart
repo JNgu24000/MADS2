@@ -7,7 +7,7 @@ class Convo {
     final Map<String, dynamic> data = doc.data as Map<String, dynamic>;
 
     return Convo(
-        id: doc.documentID,
+        id: doc.id,
         userIds: data['users'] ?? <dynamic>[],
         lastMessage: data['lastMessage'] ?? <dynamic>{});
   }
@@ -29,7 +29,7 @@ class Message {
     final Map<String, dynamic> data = doc.data as Map<String, dynamic>;
 
     return Message(
-        id: doc.documentID,
+        id: doc.id,
         content: data['content'],
         idFrom: data['idFrom'],
         idTo: data['idTo'],

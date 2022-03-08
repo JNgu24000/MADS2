@@ -14,12 +14,13 @@ class Database {
         {'id': _auth.uid, 'name': _auth.displayName, 'email': _auth.email});
   }
 
-  static Stream streamUsers() {
+  static Stream<List<Chatter>> streamUsers() {
     return _db
         .collection('users')
         .snapshots()
         .map((QuerySnapshot list) => list.docs
-            .map((DocumentSnapshot snap) => Chatter.fromMap(snap.data))
+            .map((DocumentSnapshot snap) =>
+                Chatter.fromMap({"users": snap.data}))
             .toList())
         .handleError((dynamic e) {
       print(e);
@@ -33,7 +34,7 @@ class Database {
           .collection('users')
           .doc(id)
           .snapshots()
-          .map((DocumentSnapshot snap) => Chatter.fromMap(snap.data)));
+          .map((DocumentSnapshot snap) => Chatter.fromMap({"id": snap.data})));
     }
     return StreamZip<Chatter>(streams).asBroadcastStream();
   }
@@ -96,7 +97,7 @@ class Database {
         .collection('messages')
         .doc(convoID)
         .collection(convoID)
-        .doc(doc.documentID);
+        .doc(doc.id);
 
     documentReference
         .set(<String, dynamic>{'read': true}, SetOptions(merge: true));

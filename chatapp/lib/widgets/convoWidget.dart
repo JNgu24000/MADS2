@@ -88,7 +88,7 @@ class ConvoListItem extends StatelessWidget {
               read
                   ? Container()
                   : Icon(Icons.brightness_1,
-                      color: Theme.of(context).accentColor, size: 15)
+                      color: Theme.of(context).colorScheme.secondary, size: 15)
             ]),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,

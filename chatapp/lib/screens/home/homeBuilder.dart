@@ -10,9 +10,9 @@ import 'package:provider/provider.dart';
 class HomeBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth firebaseUser = Provider.of<FirebaseAuth>(context);
+    final FirebaseAuth firebaseUser = FirebaseAuth.instance;
     final List<Convo> _convos = Provider.of<List<Convo>>(context);
-    final List<User> _users = Provider.of<List<User>>(context);
+    final List<Chatter> _users = Provider.of<List<Chatter>>(context);
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.blue,
@@ -30,7 +30,10 @@ class HomeBuilder extends StatelessWidget {
                     onPressed: () async {
                       _signOut(context);
                     },
-                    child: const Text("Logout"))
+                    child: const Text("Logout")),
+                IconButton(
+                    onPressed: () => createNewConvo(context),
+                    icon: Icon(Icons.add, size: 30))
               ],
             )),
         body: ListView(
@@ -44,30 +47,26 @@ class HomeBuilder extends StatelessWidget {
         builder: (BuildContext context) => NewMessageProvider()));
   }
 
-  Map<String, User> getUserMap(List<User> users) {
-    final Map<String, User> userMap = Map();
-    for (User u in users) {
-      userMap[u.uid] = u;
+  Map<String, Chatter> getUserMap(List<Chatter> users) {
+    final Map<String, Chatter> userMap = Map();
+    for (Chatter u in users) {
+      userMap[u.id] = u;
     }
     return userMap;
   }
 
   List<Widget> getWidgets(BuildContext context, FirebaseAuth user,
-      List<Convo> _convos, List<User> _users) {
+      List<Convo> _convos, List<Chatter> _users) {
     final List<Widget> list = <Widget>[];
     if (_convos != null && _users != null && user != null) {
-      final Map<String, User> userMap = getUserMap(_users);
+      final Map<String, Chatter> userMap = getUserMap(_users);
       for (Convo c in _convos) {
         if (c.userIds[0] == user.currentUser!.uid) {
           list.add(ConvoListItem(
-              user: user,
-              peer: userMap[c.userIds[1]],
-              lastMessage: c.lastMessage));
+              user: user, peer: c.userIds[1], lastMessage: c.lastMessage));
         } else {
           list.add(ConvoListItem(
-              user: user,
-              peer: userMap[c.userIds[0]],
-              lastMessage: c.lastMessage));
+              user: user, peer: c.userIds[0], lastMessage: c.lastMessage));
         }
       }
     }
