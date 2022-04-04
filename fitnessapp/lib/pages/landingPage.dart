@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fitnessapp/pages/loginPage.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -25,9 +26,17 @@ class LandingPage extends StatelessWidget {
             alignment: const Alignment(-0.3, -0.3),
             child: Row(children: <Widget>[
               const SizedBox(width: 50),
-              ElevatedButton(onPressed: () {}, child: const Text("Register")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/register');
+                  },
+                  child: const Text("Register")),
               const SizedBox(width: 125),
-              ElevatedButton(onPressed: () {}, child: const Text("Login"))
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/login');
+                  },
+                  child: const Text("Login"))
             ])),
       ])),
     );
