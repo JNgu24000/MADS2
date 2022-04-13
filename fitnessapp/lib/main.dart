@@ -1,3 +1,4 @@
+import 'package:fitnessapp/widgets/databaseDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:fitnessapp/pages/landingPage.dart';
 import 'package:fitnessapp/pages/loginPage.dart';
@@ -11,7 +12,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => HomePage(),
           '/login': (BuildContext context) => LoginPage(),
-          '/register': (BuildContext context) => RegisterPage()
+          '/register': (BuildContext context) => RegisterPage(),
+          '/databaseDisplay': (BuildContext context) => const DatabaseDisplay()
         });
   }
 }

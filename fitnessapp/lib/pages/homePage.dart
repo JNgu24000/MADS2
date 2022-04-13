@@ -1,6 +1,7 @@
-import 'package:fitnessapp/pages/landingPage.dart';
+import 'package:fitnessapp/widgets/databaseDisplay.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitnessapp/pages/profilePage.dart';
+import 'package:fitnessapp/widgets/homePageDisplay.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,53 +9,38 @@ class HomePage extends StatefulWidget {
 }
 
 class HomeState extends State<HomePage> {
+  final _formKey = GlobalKey<FormState>();
+  int _selectedIndex = 0;
+  final List _pages = [HomePageDisplay(), const DatabaseDisplay(), Profile()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("FitApp Home"),
-          backgroundColor: Colors.black,
-        ),
-        body: Center(
-            child: Form(
-                child: Column(
-          children: [
-            Align(
-                alignment: const Alignment(0.9, 1),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black)),
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Logout Confirmation'),
-                      content: const Text('Are you sure you want to log out?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            _signOut(context);
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  child: const Text("Logout"),
-                )),
-          ],
-        ))));
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Data',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Options',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 
-  void _signOut(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Signed Out.")));
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LandingPage()));
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
