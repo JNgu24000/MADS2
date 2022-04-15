@@ -68,7 +68,7 @@ class HomePageDisplay extends StatelessWidget {
               TextFormField(
                   decoration: const InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Duration (minutes:seconds)",
+                      hintText: "Duration (minutes:seconds or reps)",
                       hintStyle: TextStyle(fontSize: 20, color: Colors.black)),
                   controller: _duration),
               ElevatedButton(

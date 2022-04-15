@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitnessapp/widgets/databaseDisplay.dart';
 import 'package:flutter/material.dart';
-import 'package:fitnessapp/pages/profilePage.dart';
+import 'package:fitnessapp/pages/queryPage.dart';
 import 'package:fitnessapp/widgets/homePageDisplay.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,7 +12,11 @@ class HomePage extends StatefulWidget {
 class HomeState extends State<HomePage> {
   final _formKey = GlobalKey<FormState>();
   int _selectedIndex = 0;
-  final List _pages = [HomePageDisplay(), const DatabaseDisplay(), Profile()];
+  final List _pages = [
+    HomePageDisplay(),
+    const DatabaseDisplay(),
+    QueryWorkout()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,7 @@ class HomeState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
-            label: 'Options',
+            label: 'Query',
           ),
         ],
         currentIndex: _selectedIndex,
