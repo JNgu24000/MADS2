@@ -97,10 +97,6 @@ class LoginPage extends StatelessWidget {
           .collection("users")
           .doc(_auth.currentUser!.uid)
           .set({"email": _email.text}, SetOptions(merge: true));
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Account Logged In')));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
     } on FirebaseException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message ?? "Unknown error")));

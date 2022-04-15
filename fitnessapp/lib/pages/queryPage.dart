@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fitnessapp/models/database.dart';
 
 import '../widgets/filteredDisplay.dart';
+import '../widgets/orderedDisplay.dart';
 
 class QueryWorkout extends StatelessWidget {
   QueryWorkout({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class QueryWorkout extends StatelessWidget {
   final DatabaseHandler db = DatabaseHandler();
   final _formKey = GlobalKey<FormState>();
   final _workout = TextEditingController();
-  final workoutType = [];
+  final _field = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +38,40 @@ class QueryWorkout extends StatelessWidget {
                           _query(context);
                         }
                       },
-                      child: const Text("Submit")),
+                      child: const Text("Query")),
+                  TextFormField(
+                    controller: _field,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Enter a field (exercise or date)",
+                        hintStyle:
+                            TextStyle(fontSize: 20, color: Colors.black)),
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _sort(context);
+                        }
+                      },
+                      child: const Text("Sort")),
                 ]))));
   }
 
   void _query(BuildContext context) async {
-    final workout = _workout.text;
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Sorted by workout')));
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => filteredDisplay(workout: _workout.text)));
+  }
+
+  void _sort(BuildContext context) async {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Sorted by category')));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => orderedDisplay(field: _field.text)));
   }
 }
