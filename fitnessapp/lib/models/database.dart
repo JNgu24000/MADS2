@@ -6,15 +6,15 @@ class DatabaseHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
-      join(path, 'workout.db'),
+      join(path, 'exercise.db'),
       onCreate: (db, version) async {
-        await db.execute("CREATE TABLE IF NOT EXISTS workouts "
+        await db.execute("CREATE TABLE workouts "
             "(id INTEGER PRIMARY KEY, "
-            "day TEXT NOT NULL, "
-            "exercise TEXT NOT NULL,"
-            "duration TEXT NOT NULL;");
+            "date TEXT, "
+            "exercise TEXT, "
+            "duration TEXT)");
       },
-      version: 3,
+      version: 5,
     );
   }
 
@@ -30,7 +30,7 @@ class DatabaseHandler {
     return List.generate(maps.length, (i) {
       return Workout(
           id: maps[i]['id'],
-          day: maps[i]['day'],
+          date: maps[i]['date'],
           exercise: maps[i]['exercise'],
           duration: maps[i]['duration']);
     });

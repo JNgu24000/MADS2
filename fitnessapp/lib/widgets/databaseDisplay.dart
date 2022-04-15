@@ -49,7 +49,11 @@ class _DatabaseDisplayState extends State<DatabaseDisplay> {
                   child: Card(
                       child: ListTile(
                     contentPadding: const EdgeInsets.all(8.0),
-                    title: Text(snapshot.data![index].day),
+                    title: Column(
+                      children: [
+                        Text(snapshot.data![index].date.toString()),
+                      ],
+                    ),
                     subtitle: Column(
                       children: [
                         Text(snapshot.data![index].exercise.toString()),

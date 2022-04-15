@@ -1,21 +1,21 @@
 class Workout {
   final int? id;
-  final String day;
+  final String date;
   final String exercise;
   final String duration;
 
   const Workout(
       {this.id,
-      required this.day,
+      required this.date,
       required this.exercise,
       required this.duration});
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'day': day, 'exercise': exercise, 'duration': duration};
+    return {'id': id, 'date': date, 'exercise': exercise, 'duration': duration};
   }
 
   @override
   String toString() {
-    return 'Workout{id:$id,day:$day,exercise:$exercise,duration:$duration}';
+    return 'Workout{id:$id,date:$date,exercise:$exercise,duration:$duration}';
   }
 }
