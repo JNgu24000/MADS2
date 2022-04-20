@@ -94,6 +94,6 @@ class HomePageDisplay extends StatelessWidget {
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text("Signed Out.")));
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LandingPage()));
+        context, MaterialPageRoute(builder: (context) => LandingPage()));
   }
 }

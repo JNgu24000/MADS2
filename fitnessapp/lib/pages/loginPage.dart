@@ -2,7 +2,6 @@ import 'package:fitnessapp/pages/landingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fitnessapp/pages/homePage.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -11,7 +10,6 @@ class LoginPage extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
   final _email = TextEditingController();
-  final _display = TextEditingController();
   final _password = TextEditingController();
 
   @override
@@ -67,7 +65,7 @@ class LoginPage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LandingPage()));
+                                  builder: (context) => LandingPage()));
                         },
                         child: const Text("Back to Home")),
                   ],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +24,64 @@ class LandingPage extends StatelessWidget {
           ),
         ),
         Align(
-            alignment: const Alignment(-0.3, -0.3),
-            child: Row(children: <Widget>[
-              const SizedBox(width: 50),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/register');
-                  },
-                  child: const Text("Register")),
-              const SizedBox(width: 125),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/login');
-                  },
-                  child: const Text("Login"))
-            ])),
+          alignment: const Alignment(-0.3, -0.3),
+          child: Row(children: <Widget>[
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/register');
+                },
+                child: const Text("Register")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/login');
+                },
+                child: const Text("Login")),
+            InkWell(
+                onTap: () async {
+                  await signInWithGoogle();
+                },
+                child: Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white),
+                    child: Center(
+                        child: Row(children: <Widget>[
+                      Container(
+                        height: 30.0,
+                        width: 30.0,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/google.png'),
+                              fit: BoxFit.cover),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const Text(
+                        'Sign in with Google',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ]))))
+          ]),
+        )
       ])),
     );
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

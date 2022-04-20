@@ -1,16 +1,9 @@
 # fitnessapp
 
-A new Flutter project.
+A Flutter project that aims to provide users the ability to record and view workouts in an organized fashion while having user experience specifically tailored to them with secure accounts.
 
-## Getting Started
+## GDependencies
 
-This project is a starting point for a Flutter application.
+* Firebase Auth: provides authentication for users and allows logins with email and password system.
+* SQFLite: the main dependency for creating a database for storing fitness-related information as well as the options to query and modify it.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
