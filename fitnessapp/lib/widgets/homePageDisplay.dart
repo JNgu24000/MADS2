@@ -3,6 +3,7 @@ import 'package:fitnessapp/models/database.dart';
 import 'package:fitnessapp/models/exercise.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitnessapp/pages/landingPage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePageDisplay extends StatelessWidget {
   HomePageDisplay({Key? key}) : super(key: key);
@@ -90,6 +91,7 @@ class HomePageDisplay extends StatelessWidget {
   }
 
   void _signOut(BuildContext context) async {
+    await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text("Signed Out.")));

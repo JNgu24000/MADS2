@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class LandingPage extends StatelessWidget {
   LandingPage({Key? key}) : super(key: key);
@@ -26,19 +25,23 @@ class LandingPage extends StatelessWidget {
         Align(
           alignment: const Alignment(-0.3, -0.3),
           child: Row(children: <Widget>[
+            const SizedBox(width: 10),
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed('/register');
                 },
                 child: const Text("Register")),
+            const SizedBox(width: 20),
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed('/login');
                 },
                 child: const Text("Login")),
+            const SizedBox(width: 20),
             InkWell(
                 onTap: () async {
-                  await signInWithGoogle();
+                  await GoogleSignIn().signIn();
+                  Navigator.of(context).pushNamed('/home');
                 },
                 child: Container(
                     margin: const EdgeInsets.only(top: 25),
@@ -69,19 +72,5 @@ class LandingPage extends StatelessWidget {
         )
       ])),
     );
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
