@@ -1,3 +1,4 @@
+import 'package:fitnessapp/widgets/dateRangeSort.dart';
 import 'package:flutter/material.dart';
 import 'package:fitnessapp/models/database.dart';
 
@@ -11,6 +12,8 @@ class QueryWorkout extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final _workout = TextEditingController();
   final _field = TextEditingController();
+  final _fromDate = TextEditingController();
+  final _toDate = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +41,12 @@ class QueryWorkout extends StatelessWidget {
                           _query(context);
                         }
                       },
-                      child: const Text("Query")),
+                      child: const Text("Query Workout")),
                   TextFormField(
                     controller: _field,
                     decoration: const InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Enter a field (exercise or date)",
+                        hintText: "Enter a field (id/exercise/date)",
                         hintStyle:
                             TextStyle(fontSize: 20, color: Colors.black)),
                   ),
@@ -53,7 +56,30 @@ class QueryWorkout extends StatelessWidget {
                           _sort(context);
                         }
                       },
-                      child: const Text("Sort")),
+                      child: const Text("Sort by field")),
+                  TextFormField(
+                    controller: _fromDate,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "From Date (YYYY-MM-DD)",
+                        hintStyle:
+                            TextStyle(fontSize: 20, color: Colors.black)),
+                  ),
+                  TextFormField(
+                    controller: _toDate,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "To Date (YYYY-MM-DD)",
+                        hintStyle:
+                            TextStyle(fontSize: 20, color: Colors.black)),
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _sortDateRange(context);
+                        }
+                      },
+                      child: const Text("Sort by date range")),
                 ]))));
   }
 
@@ -73,5 +99,15 @@ class QueryWorkout extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (context) => orderedDisplay(field: _field.text)));
+  }
+
+  void _sortDateRange(BuildContext context) async {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Sorted by date range')));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => dateRangeSorted(
+                fromDate: _fromDate.text, toDate: _toDate.text)));
   }
 }

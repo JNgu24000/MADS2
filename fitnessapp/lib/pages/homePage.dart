@@ -33,7 +33,7 @@ class HomeState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
-            label: 'Query',
+            label: 'Options',
           ),
         ],
         currentIndex: _selectedIndex,

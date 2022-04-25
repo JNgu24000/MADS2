@@ -13,6 +13,7 @@ class HomePageDisplay extends StatelessWidget {
   final _date = TextEditingController();
   final _exercise = TextEditingController();
   final _duration = TextEditingController();
+  final _workoutID = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,13 @@ class HomePageDisplay extends StatelessWidget {
               TextFormField(
                   decoration: const InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Date (month/date/year)",
+                      hintText: "Workout Entry Number",
+                      hintStyle: TextStyle(fontSize: 20, color: Colors.black)),
+                  controller: _workoutID),
+              TextFormField(
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Date (YYYY-MM-DD)",
                       hintStyle: TextStyle(fontSize: 20, color: Colors.black)),
                   controller: _date,
                   validator: (String? value) {}),
@@ -77,6 +84,11 @@ class HomePageDisplay extends StatelessWidget {
                     _submit(context);
                   },
                   child: const Text("Submit")),
+              ElevatedButton(
+                  onPressed: () {
+                    _update(context);
+                  },
+                  child: const Text("Update")),
             ]),
           ),
         ])));
@@ -84,13 +96,28 @@ class HomePageDisplay extends StatelessWidget {
 
   void _submit(BuildContext context) async {
     Workout newWorkout = Workout(
-        date: _date.text, exercise: _exercise.text, duration: _duration.text);
+        id: int.parse(_workoutID.text),
+        date: _date.text,
+        exercise: _exercise.text,
+        duration: _duration.text);
     await db.insertWorkouts(newWorkout);
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Information added to database')));
+        const SnackBar(content: Text('Information added to database.')));
+  }
+
+  void _update(BuildContext context) async {
+    Workout newWorkout = Workout(
+        id: int.parse(_workoutID.text),
+        date: _date.text,
+        exercise: _exercise.text,
+        duration: _duration.text);
+    await db.updateWorkouts(newWorkout);
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Information updated to database.')));
   }
 
   void _signOut(BuildContext context) async {
+    await db.close();
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
     ScaffoldMessenger.of(context)

@@ -1,11 +1,11 @@
 class Workout {
-  final int? id;
+  final int id;
   final String date;
   final String exercise;
   final String duration;
 
   const Workout(
-      {this.id,
+      {required this.id,
       required this.date,
       required this.exercise,
       required this.duration});

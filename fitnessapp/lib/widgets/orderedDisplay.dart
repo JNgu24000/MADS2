@@ -42,9 +42,9 @@ class _orderededDisplayState extends State<orderedDisplay> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: const Icon(Icons.delete_forever),
                   ),
-                  key: ValueKey<int>(snapshot.data![index].id!),
+                  key: ValueKey<int>(snapshot.data![index].id),
                   onDismissed: (DismissDirection direction) async {
-                    await handler.deleteWorkout(snapshot.data![index].id!);
+                    await handler.deleteWorkout(snapshot.data![index].id);
                     setState(() {
                       snapshot.data!.remove(snapshot.data![index]);
                     });
@@ -54,11 +54,12 @@ class _orderededDisplayState extends State<orderedDisplay> {
                     contentPadding: const EdgeInsets.all(8.0),
                     title: Column(
                       children: [
-                        Text(snapshot.data![index].date.toString()),
+                        Text(snapshot.data![index].id.toString()),
                       ],
                     ),
                     subtitle: Column(
                       children: [
+                        Text(snapshot.data![index].date.toString()),
                         Text(snapshot.data![index].exercise.toString()),
                         Text(snapshot.data![index].duration.toString()),
                       ],

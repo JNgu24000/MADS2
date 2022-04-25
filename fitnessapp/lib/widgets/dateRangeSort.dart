@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:fitnessapp/models/database.dart';
 import 'package:fitnessapp/models/exercise.dart';
 
-class DatabaseDisplay extends StatefulWidget {
-  const DatabaseDisplay({Key? key}) : super(key: key);
+class dateRangeSorted extends StatefulWidget {
+  final String fromDate;
+  final String toDate;
+  dateRangeSorted({Key? key, required this.fromDate, required this.toDate})
+      : super(key: key);
 
   @override
-  State<DatabaseDisplay> createState() => _DatabaseDisplayState();
+  State<dateRangeSorted> createState() => _dateRangeSorted(fromDate, toDate);
 }
 
-class _DatabaseDisplayState extends State<DatabaseDisplay> {
+class _dateRangeSorted extends State<dateRangeSorted> {
   late DatabaseHandler handler;
+  final String fromDate;
+  final String toDate;
+  _dateRangeSorted(this.fromDate, this.toDate);
 
   @override
   void initState() {
@@ -25,7 +31,7 @@ class _DatabaseDisplayState extends State<DatabaseDisplay> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: handler.getWorkouts(),
+        future: handler.dateRangeSort(fromDate, toDate),
         builder: (BuildContext context, AsyncSnapshot<List<Workout>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(

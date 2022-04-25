@@ -72,6 +72,19 @@ class DatabaseHandler {
     });
   }
 
+  Future<List<Workout>> dateRangeSort(fromDate, toDate) async {
+    final Database db = await initializeDB();
+    final List<Map<String, dynamic>> result = await db.rawQuery(
+        ''' SELECT * FROM workouts WHERE date BETWEEN '$fromDate' AND '$toDate' ''');
+    return List.generate(result.length, (i) {
+      return Workout(
+          id: result[i]['id'],
+          date: result[i]['date'],
+          exercise: result[i]['exercise'],
+          duration: result[i]['duration']);
+    });
+  }
+
   Future<void> deleteWorkout(int id) async {
     final Database db = await initializeDB();
     await db.delete(
